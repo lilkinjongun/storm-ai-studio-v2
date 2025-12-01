@@ -3,18 +3,19 @@ import { AppTab } from './types';
 import { TextureSwapper } from './components/TextureSwapper';
 import { ImageGenerator } from './components/ImageGenerator';
 import { ImageAnalyzer } from './components/ImageAnalyzer';
+import { ApiKeyModal } from './components/ApiKeyModal';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>(AppTab.TEXTURE_SWAP);
-
-  const handleApiKey = async () => {
-    if (window.aistudio?.openSelectKey) {
-      await window.aistudio.openSelectKey();
-    }
-  };
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen text-neutral-200 selection:bg-white/20">
+      <ApiKeyModal 
+        isOpen={isKeyModalOpen} 
+        onClose={() => setIsKeyModalOpen(false)} 
+      />
+
       {/* Header */}
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -57,7 +58,7 @@ const App: React.FC = () => {
             <div className="h-5 w-px bg-white/10 hidden md:block"></div>
 
             <button 
-              onClick={handleApiKey}
+              onClick={() => setIsKeyModalOpen(true)}
               className="group flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-all border border-transparent hover:border-white/10"
               title="Gerenciar Chave API"
             >

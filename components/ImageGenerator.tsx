@@ -23,19 +23,13 @@ export const ImageGenerator: React.FC = () => {
       setResult(generated);
     } catch (err: any) {
       console.error(err);
-      if (err.message && err.message.includes("API key")) {
-        setError("Por favor, selecione uma chave de API válida para usar o modelo Pro.");
+      if (err.message && err.message === "API_KEY_MISSING") {
+        setError("Chave de API não encontrada. Por favor, clique em 'Chave API' no menu superior para configurar.");
       } else {
-        setError("A geração falhou. Tente um prompt diferente ou verifique suas configurações.");
+        setError("A geração falhou. Verifique se sua chave tem permissões ou tente um prompt diferente.");
       }
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleSelectKey = async () => {
-    if (window.aistudio?.openSelectKey) {
-        await window.aistudio.openSelectKey();
     }
   };
 
@@ -46,9 +40,6 @@ export const ImageGenerator: React.FC = () => {
           <h2 className="text-4xl font-light text-white mb-2 tracking-tight">Gerador Pro</h2>
           <p className="text-neutral-500 font-light">Geração de alta fidelidade com Gemini 3 Pro Image Preview.</p>
         </div>
-        <Button variant="secondary" onClick={handleSelectKey} className="text-xs uppercase tracking-wider">
-           Gerenciar Chave API
-        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
